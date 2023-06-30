@@ -16,8 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <quarkus-amazon-services.version>2.3.0</quarkus-amazon-services.version>
-        <awssdk.testcontainers.version>1.12.57</awssdk.testcontainers.version>
+        <quarkus-amazon-services.version>2.3.3</quarkus-amazon-services.version>
     </properties>
 
     <dependencyManagement>
@@ -53,6 +52,10 @@
             <artifactId>quarkus-amazon-dynamodb</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.quarkiverse.amazonservices</groupId>
+            <artifactId>quarkus-amazon-dynamodb-enhanced</artifactId>
+        </dependency>
+        <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>url-connection-client</artifactId>
         </dependency>
@@ -79,13 +82,6 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Required by testcontainers.localstack -->
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-core</artifactId>
-            <version>${awssdk.testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

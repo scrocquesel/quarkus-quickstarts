@@ -20,9 +20,8 @@ public class FruitAsyncService extends AbstractService {
                 .onItem().transform(res -> res.items().stream().map(Fruit::from).collect(Collectors.toList()));
     }
 
-    public Uni<List<Fruit>> add(Fruit fruit) {
-        return Uni.createFrom().completionStage(() -> dynamoDB.putItem(putRequest(fruit)))
-                .onItem().ignore().andSwitchTo(this::findAll);
+    public Uni<Void> add(Fruit fruit) {
+        return Uni.createFrom().completionStage(() -> dynamoDB.putItem(putRequest(fruit))).replaceWithVoid();
     }
 
     public Uni<Fruit> get(String name) {

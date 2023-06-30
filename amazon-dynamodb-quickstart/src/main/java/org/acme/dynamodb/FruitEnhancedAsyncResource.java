@@ -9,11 +9,11 @@ import jakarta.ws.rs.Path;
 
 import io.smallrye.mutiny.Uni;
 
-@Path("/async-fruits")
-public class FruitAsyncResource {
+@Path("/enhanced-async-fruits")
+public class FruitEnhancedAsyncResource {
 
     @Inject
-    FruitAsyncService service;
+    FruitEnhancedAsyncService service;
 
     @GET
     public Uni<List<Fruit>> getAll() {
@@ -29,6 +29,6 @@ public class FruitAsyncResource {
     @POST
     public Uni<List<Fruit>> add(Fruit fruit) {
         return service.add(fruit)
-                .onItem().ignore().andSwitchTo(this::getAll);
+            .onItem().ignore().andSwitchTo(this::getAll);
     }
 }

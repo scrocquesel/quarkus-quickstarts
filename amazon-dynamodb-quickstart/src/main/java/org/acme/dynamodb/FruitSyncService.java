@@ -20,9 +20,8 @@ public class FruitSyncService extends AbstractService {
                 .collect(Collectors.toList());
     }
 
-    public List<Fruit> add(Fruit fruit) {
+    public void add(Fruit fruit) {
         dynamoDB.putItem(putRequest(fruit));
-        return findAll();
     }
 
     public Fruit get(String name) {

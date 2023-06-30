@@ -12,13 +12,10 @@ public abstract class AbstractService {
 
     public static final String FRUIT_NAME_COL = "fruitName";
     public static final String FRUIT_DESC_COL = "fruitDescription";
-
-    public String getTableName() {
-        return "QuarkusFruits";
-    }
+    public static final String FRUIT_TABLE_NAME = "QuarkusFruits";
 
     protected ScanRequest scanRequest() {
-        return ScanRequest.builder().tableName(getTableName())
+        return ScanRequest.builder().tableName(FRUIT_TABLE_NAME)
                 .attributesToGet(FRUIT_NAME_COL, FRUIT_DESC_COL).build();
     }
 
@@ -28,7 +25,7 @@ public abstract class AbstractService {
         item.put(FRUIT_DESC_COL, AttributeValue.builder().s(fruit.getDescription()).build());
 
         return PutItemRequest.builder()
-                .tableName(getTableName())
+                .tableName(FRUIT_TABLE_NAME)
                 .item(item)
                 .build();
     }
@@ -38,7 +35,7 @@ public abstract class AbstractService {
         key.put(FRUIT_NAME_COL, AttributeValue.builder().s(name).build());
 
         return GetItemRequest.builder()
-                .tableName(getTableName())
+                .tableName(FRUIT_TABLE_NAME)
                 .key(key)
                 .attributesToGet(FRUIT_NAME_COL, FRUIT_DESC_COL)
                 .build();

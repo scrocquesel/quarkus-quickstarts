@@ -4,9 +4,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 @RegisterForReflection
+@DynamoDbBean
 public class Fruit {
 
     private String name;
@@ -24,6 +28,8 @@ public class Fruit {
         return fruit;
     }
 
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute(AbstractService.FRUIT_NAME_COL)
     public String getName() {
         return name;
     }
@@ -32,6 +38,7 @@ public class Fruit {
         this.name = name;
     }
 
+    @DynamoDbAttribute(AbstractService.FRUIT_DESC_COL)
     public String getDescription() {
         return description;
     }
