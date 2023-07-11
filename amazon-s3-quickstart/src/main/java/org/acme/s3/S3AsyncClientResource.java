@@ -20,6 +20,7 @@ import mutiny.zero.flow.adapters.AdaptersToFlow;
 import org.jboss.resteasy.reactive.RestMulti;
 import org.reactivestreams.Publisher;
 
+import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.buffer.Buffer;
@@ -34,10 +35,13 @@ public class S3AsyncClientResource extends CommonResource {
     @Inject
     S3AsyncClient s3;
 
+    @WithTransaction
     @POST
     @Path("upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Uni<Response> uploadFile(FormData formData) throws Exception {
+
+        return Fruit.findById(1L).flatMap(entity -> {
 
         if (formData.filename == null || formData.filename.isEmpty()) {
             return Uni.createFrom().item(Response.status(Status.BAD_REQUEST).build());
@@ -51,11 +55,14 @@ public class S3AsyncClientResource extends CommonResource {
                 .completionStage(() -> {
                     return s3.putObject(buildPutRequest(formData), AsyncRequestBody.fromFile(formData.data));
                 })
+                .chain( discard -> Fruit.persist(new Fruit(formData.filename)))
                 .onItem().ignore().andSwitchTo(Uni.createFrom().item(Response.created(null).build()))
                 .onFailure().recoverWithItem(th -> {
                     th.printStackTrace();
                     return Response.serverError().build();
                 });
+
+        });       
     }
 
     @GET
